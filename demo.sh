@@ -65,6 +65,17 @@ command.help() {
 EOF
 }
 
+  info "Creating namespaces $cicd_prj, $dev_prj, $stage_prj"
+  oc get ns $cicd_prj 2>/dev/null  || {
+    oc new-project $cicd_prj
+  }
+  oc get ns $dev_prj 2>/dev/null  || {
+    oc new-project $dev_prj
+  }
+  oc get ns $stage_prj 2>/dev/null  || {
+    oc new-project $stage_prj
+  }
+
 command.install() {
   oc version >/dev/null 2>&1 || err "no oc binary found"
 
