@@ -68,17 +68,6 @@ EOF
 command.install() {
   oc version >/dev/null 2>&1 || err "no oc binary found"
 
-  info "Creating namespaces $cicd_prj, $dev_prj, $stage_prj"
-  oc get ns $cicd_prj 2>/dev/null  || {
-    oc new-project $cicd_prj
-  }
-  oc get ns $dev_prj 2>/dev/null  || {
-    oc new-project $dev_prj
-  }
-  oc get ns $stage_prj 2>/dev/null  || {
-    oc new-project $stage_prj
-  }
-
   info "Configure service account permissions for pipeline"
   oc policy add-role-to-user edit system:serviceaccount:$cicd_prj:pipeline -n $dev_prj
   oc policy add-role-to-user edit system:serviceaccount:$cicd_prj:pipeline -n $stage_prj
